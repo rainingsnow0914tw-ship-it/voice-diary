@@ -67,13 +67,32 @@ This creates a full emotional feedback loop — not just recording life, but res
 
 ---
 
+## 🎮 Demo Mode
+
+The deployed version runs in **Demo Mode** with pre-scripted conversations to ensure a stable experience for reviewers.
+
+**Why Demo Mode?**
+- Guarantees consistent functionality regardless of network conditions
+- Avoids API quota limitations during evaluation
+- Allows reviewers to experience the complete user flow reliably
+
+**Full API Integration:**
+The codebase includes complete implementation of:
+- Google Gemini API for real-time conversational AI
+- ElevenLabs TTS API for natural voice synthesis
+- Automatic API key rotation for reliability
+
+To enable live mode, simply set `testMode = false` in the code. The API integration is production-ready.
+
+---
+
 ## ▶️ How to Run
 
 This project is a single-file web app.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/voice-diary.git
+   git clone https://github.com/rainingsnow0914tw-ship-it/voice-diary.git
    ```
 
 2. Open `index.html` in your browser
