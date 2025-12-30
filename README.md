@@ -146,7 +146,7 @@ This project was built at the edge of my comfort zone — technically, emotional
 
 ## 📽 Demo Video
 
-🎬 [Watch on YouTube](https://youtu.be/YOUR_VIDEO_ID)
+🎬 [Watch on YouTube]([https://youtu.be/kgTX8wX66qE?si=ZAc9N2YNhJi0TB9U])
 
 ---
 
