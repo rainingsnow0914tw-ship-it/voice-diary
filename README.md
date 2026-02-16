@@ -230,10 +230,10 @@ Built through **AI Orchestration** — one human product designer coordinating m
 |------|--------|
 | Product Design & Orchestration | Chloe (human) |
 | QA Partner | Chloe's husband (human) |
-| Strategic Planning & Architecture | Bao (Claude) |
-| Code Generation & Debugging | Xi (ChatGPT) |
-| Testing & Problem-solving | Amber (Copilot) |
-| Research & Fact-checking | Percy (Perplexity) |
+| Strategic Planning & Architecture | Bao |
+| Code Generation & Debugging | Xi |
+| Testing & Problem-solving | Amber |
+| Research & Fact-checking | Percy |
 | Gemini Integration & Creative | Jimmy (Gemini) |
 
 ---
