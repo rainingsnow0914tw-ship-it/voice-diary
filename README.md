@@ -6,7 +6,6 @@ Voice Diary transforms spoken conversations into reflective diary entries. Inste
 
 **[▶ Try it live](https://voice-diary-gamma.vercel.app)** · Desktop Chrome recommended
 
-![Voice Diary Screenshot](docs/screenshot.png)
 
 ---
 
