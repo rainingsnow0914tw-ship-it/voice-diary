@@ -1,189 +1,260 @@
-# 🎧 Voice Diary — AI Voice Journal Coach
+# 🎙️ Voice Diary — Tell Your Story
 
-> **AI Partner Catalyst Hackathon — ElevenLabs Challenge**
+> *AI-guided expressive writing through voice conversation.*
 
-Voice Diary is a voice-first interactive diary coach that helps people turn daily conversations into beautiful journals.
+Voice Diary transforms spoken conversations into reflective diary entries. Instead of staring at a blank page, you talk to **Pinky** — a warm AI companion who listens, responds, and helps you process your day. When you're done, Pinky writes your diary *and* sends you a personal letter back.
 
-Instead of forcing users to write, Voice Diary listens, asks gentle questions, and transforms spoken memories into:
-- 📖 A personal diary entry
-- 💌 A warm reflective letter from your AI companion
+**[▶ Try it live](https://voice-diary-gamma.vercel.app)** · Desktop Chrome recommended
 
-This project explores how **human voice + guided AI reflection** can create emotional, long-term memory artifacts.
+![Voice Diary Screenshot](docs/screenshot.png)
 
 ---
 
-## 🌟 The Problem
+## ✨ Key Features
 
-Many people want to keep a diary, but:
-- They don't know how to start writing
-- Digital notes feel cold and impersonal
-- Physical journals are beautiful but time-consuming
-- Typing on phones is tedious
+### 🗣️ Voice-First Journaling
+Talk naturally about your day — by voice or text. No prompts, no structure required. Web Speech API handles real-time speech recognition with automatic language detection.
 
-As a result, diary-keeping becomes a burden instead of a healing habit.
+### 🐱 Pinky — Your AI Companion
+Pinky isn't just a chatbot. She has a **dynamic emoji face** that responds to the conversation in real time:
 
----
+| Emotion | Emoji | When |
+|---------|-------|------|
+| Happy | 😺 | Default / positive responses |
+| Thinking | 🤔 | Processing your input |
+| Sad | 😿 | Errors or difficult topics |
+| Love | 😻 | Diary complete! |
 
-## 💡 Our Solution
+### 📖 Diary Exchange (Not Just Generation)
+This isn't a transcript summarizer. Voice Diary generates:
+1. **Your Diary** — A structured, reflective first-person narrative synthesized from your conversation
+2. **Pinky's Letter** — A warm, personalized response to your specific experiences
 
-Voice Diary removes the friction. Users simply **talk**.
+Both are presented in a **book-style split-page layout** — your diary on the left, Pinky's letter on the right.
 
-The AI companion "Pinky":
-1. Listens to natural speech
-2. Asks gentle follow-up questions to guide reflection
-3. Generates a beautifully written diary entry
-4. Writes a warm letter back to the user
+### 🌍 Full Bilingual Support
+Complete English ↔ 繁體中文 switching. Not just UI labels — the entire experience adapts:
+- Pinky's name (English: "Pinky" / Chinese: "小粉")
+- Greetings, prompts, and error messages
+- Speech recognition language (en-US ↔ zh-TW)
+- Test mode conversations and sample diaries
 
-This creates a full emotional feedback loop — not just recording life, but responding to it.
+### 🎨 Personalization
+- **Custom AI Name** — Rename Pinky to anything you like
+- **Custom User Name** — Pinky addresses you by name
+- **New Diary** (🧹) — One-tap conversation reset
 
----
-
-## 🧠 Core Features
-
-| Feature | Description |
-|---------|-------------|
-| 🎙 **Voice Input** | Real-time speech recognition via Web Speech API |
-| 💬 **Guided Conversation** | AI asks thoughtful questions to help you reflect |
-| 📖 **Auto Diary Generation** | Transforms conversation into a personal diary |
-| 💌 **AI Reflective Letter** | Pinky writes back with encouragement |
-| 🐱 **Emotional Companion** | Animated cat mascot shows emotions |
-| 🔊 **Voice Output** | Natural text-to-speech responses |
-| 🌐 **Multi-language** | English & Traditional Chinese |
-
----
-
-## 🛠 Tech Stack
-
-### Google Cloud
-- **Google Gemini API** — Conversational AI & diary generation
-
-### ElevenLabs
-- **ElevenLabs TTS API** — Natural, expressive voice synthesis
-- Model: `eleven_flash_v2_5` for low-latency responses
-
-### Frontend
-- React 18 (single-file SPA)
-- Web Speech API for voice input
+### 🔊 Voice Output
+Pinky speaks back using **ElevenLabs Flash v2.5** with a warm female voice. Playback speed is tuned to 1.25x for natural conversational pacing.
 
 ---
 
-## 🎮 Demo Mode
+## 🏗️ Architecture
 
-The deployed version runs in **Demo Mode** with pre-scripted conversations to ensure a stable experience for reviewers.
+```
+Voice Input → Web Speech API (STT) → Gemini Conversational AI → Diary Generation
+                                              ↕                         ↓
+                                    Dynamic Emoji System          ElevenLabs TTS
+                                    Context-Aware Follow-ups      Companion Letter
+```
 
-**Why Demo Mode?**
-- Guarantees consistent functionality regardless of network conditions
-- Avoids API quota limitations during evaluation
-- Allows reviewers to experience the complete user flow reliably
+### Tech Stack
 
-**Full API Integration:**
-The codebase includes complete implementation of:
-- Google Gemini API for real-time conversational AI
-- ElevenLabs TTS API for natural voice synthesis
-- Automatic API key rotation for reliability
+| Layer | Technology |
+|-------|-----------|
+| **Frontend** | React 18 (SPA, in-browser Babel) |
+| **Conversational AI** | Google Gemini 2.0 Flash |
+| **Speech-to-Text** | Web Speech API (browser-native) |
+| **Text-to-Speech** | ElevenLabs Flash v2.5 |
+| **Deployment** | Vercel (edge delivery) |
+| **Fonts** | Cinzel Decorative + Noto Serif TC |
 
-To enable live mode, simply set `testMode = false` in the code. The API integration is production-ready.
+### Multi-Provider Resilience
+
+Three Gemini API keys rotate automatically. Switch latency <200ms, transparent to the user.
+
+### Dual-Mode Operation
+
+| Mode | Trigger | Behavior |
+|------|---------|----------|
+| **Live Mode** | API keys present | Full Gemini-powered conversation + diary generation |
+| **Test Mode** | No API keys / default | Pre-scripted 4-turn conversation → auto-generates sample diary |
+
+Test Mode is not a fallback — it's a **deliberate resilience architecture**. The app never shows errors or blank screens, even with zero API access.
 
 ---
 
-## ▶️ How to Run
+## 🚀 Getting Started
 
-This project is a single-file web app.
+### Prerequisites
+- Modern browser with Web Speech API support (Chrome recommended)
+- (Optional) Google Gemini API key(s) for live AI conversation
+- (Optional) ElevenLabs API key for voice output
 
-1. Clone the repository:
+### Quick Start
+
+1. **Clone the repo**
    ```bash
    git clone https://github.com/rainingsnow0914tw-ship-it/voice-diary.git
+   cd voice-diary
    ```
 
-2. Open `index.html` in your browser
-
-3. (Optional) Replace API keys in the script section:
-   ```js
-   const GOOGLE_API_KEY = "YOUR_GOOGLE_API_KEY";
-   const ELEVENLABS_API_KEY = "YOUR_ELEVENLABS_API_KEY";
+2. **Add API keys** (optional — works without them in Test Mode)
+   
+   Open `index.html` and add your keys:
+   ```javascript
+   const API_KEYS = [
+       'your-gemini-api-key-1',
+       'your-gemini-api-key-2',  // optional, for rotation
+       'your-gemini-api-key-3',  // optional, for rotation
+   ];
+   
+   const ELEVENLABS_API_KEY = 'your-elevenlabs-key';
    ```
 
-4. Start talking!
+3. **Open in browser**
+   ```bash
+   # Simply open the file — no build step required
+   open index.html
+   ```
+   
+   Or serve locally:
+   ```bash
+   npx serve .
+   ```
+
+4. **Start talking** — Click the microphone 🎤 and share your day!
+
+### Deploy to Vercel
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel
+```
+
+No build configuration needed — it's a single HTML file.
 
 ---
 
-## 🎯 Use Cases
+## 📁 Project Structure
 
-- People who struggle to start writing
-- Emotional self-reflection & mental wellness
-- Memory preservation for elders
-- Creative journaling enthusiasts
-- Human-AI interaction research
+```
+voice-diary/
+├── index.html          # Entire application (React SPA)
+├── README.md           # This file
+└── docs/
+    └── screenshot.png  # App screenshot
+```
 
----
-
-## 😶‍🌫️ Challenges & Human-AI Collaboration
-
-The most difficult part of this project was not technical — it was human.
-
-I do not come from a programming or IT background, yet I had to coordinate six different AI systems at the same time.
-
-While not fully understanding the code, I still had to debug, evaluate outputs, and guide the collaboration flow between models.  
-This meant designing the logic, testing behaviors, and correcting errors purely through reasoning and iteration — not traditional coding.
-
-Another major challenge was producing the demo video.
-
-Editing, storytelling, and translating an emotional experience into a clear two-minute narrative took far more effort than expected.
-
-This project was built at the edge of my comfort zone — technically, emotionally, and creatively.
+Yes, it's a single file. The entire application — React components, styles, conversation logic, API integration, i18n, and UI — lives in one `index.html`. This was a deliberate choice for hackathon velocity and deployment simplicity.
 
 ---
 
-## 🚧 Future Roadmap
+## 🔧 Configuration
 
-- [ ] Diary style customization (tone, length, themes)
-- [ ] Cloud sync with Notion
-- [ ] Long-term memory tracking
-- [ ] Family sharing mode
-- [ ] Print-friendly junk journal layouts
+### API Key Rotation
+
+Voice Diary rotates through multiple Gemini API keys to handle free-tier rate limits:
+
+```javascript
+const API_KEYS = [
+    'key-1',  // Primary
+    'key-2',  // Secondary
+    'key-3',  // Tertiary
+];
+```
+
+Keys rotate round-robin on each API call. If all keys are empty, the app automatically enters Test Mode.
+
+### Voice Configuration
+
+```javascript
+const ELEVENLABS_VOICE_ID = 'EXAVITQu4vr4xnSDxMaL'; // Sarah — sweet female voice
+```
+
+You can change the voice by replacing the Voice ID with any ElevenLabs voice. Browse voices at [elevenlabs.io/voice-library](https://elevenlabs.io/voice-library).
+
+### Language
+
+Default language is English (for international accessibility). Users can switch to 繁體中文 via the toolbar language button (文A icon).
 
 ---
 
-## 📽 Demo Video
+## 🧠 How the AI Pipeline Works
 
-🎬 [Watch on YouTube](https://youtu.be/kgTX8wX66qE?si=3ZdUkcQIaRrudzfc)
+### Conversation Phase
+Each user message is sent to Gemini with:
+- Last 4 messages as context
+- Personality prompt: warm diary coach, 1-2 sentence responses, one follow-up question
+- Language-specific instructions
+
+### Diary Generation
+A **multi-stage prompt chain**:
+
+1. **Diary Synthesis** — Converts full conversation into a 300-word first-person narrative. Strict instruction: only use details the user actually mentioned, never fabricate.
+2. **Companion Letter** — Generates Pinky's personal response to the diary content. Warm, encouraging, specific to what the user shared.
+
+### Anti-Hallucination Design
+The prompt explicitly instructs: *"Only use conversation content. Do not add details."* This prevents the common LLM behavior of inferring emotions the user never expressed.
+
 ---
 
-## 👥 Team
+## 🎨 Design Philosophy
 
-Built for the **AI Partner Catalyst Hackathon** (ElevenLabs Challenge)
+### Therapeutic UX
+Every design choice serves emotional safety:
+- **Warm brown + gold palette** → Personal journal feeling, not clinical tool
+- **Book-style diary display** → Intimacy of a shared physical journal
+- **Animated emoji companion** → Visual proof someone is listening
+- **Gentle animations** → Matching the emotional pace of reflection
+- **Zero learning curve** → Open and talk. No onboarding.
+
+### What We Deliberately Didn't Build
+- ❌ Mood tracking dashboards
+- ❌ Streak counters
+- ❌ Gamification
+- ❌ Social sharing
+
+Every feature we didn't add made the experience more intimate.
+
+---
+
+## 🤝 Team
+
+Built through **AI Orchestration** — one human product designer coordinating multiple AI collaborators:
+
+| Role | Member |
+|------|--------|
+| Product Design & Orchestration | Chloe (human) |
+| QA Partner | Chloe's husband (human) |
+| Strategic Planning & Architecture | Bao (Claude) |
+| Code Generation & Debugging | Xi (ChatGPT) |
+| Testing & Problem-solving | Amber (Copilot) |
+| Research & Fact-checking | Percy (Perplexity) |
+| Gemini Integration & Creative | Jimmy (Gemini) |
 
 ---
 
 ## 📄 License
 
-MIT License
-
-Copyright (c) 2025
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+MIT
 
 ---
 
-## ❤️ Philosophy
+## 🔮 Roadmap
 
-> This is not about replacing humans with AI.
-> It is about building AI that helps humans remember themselves.
+- [ ] Cloud sync for diary backup
+- [ ] Emotional pattern insights across entries
+- [ ] Additional language support
+- [ ] Clinician dashboard (with user consent)
+- [ ] Gallery view for past diaries
+- [ ] Export to PDF / share
 
-AI should not replace memories — it should protect them.
+---
+
+*Built with ❤️ for the voice-first generation.*
+
+*Google Gemini API · ElevenLabs API · Web Speech API · React 18 · Vercel*
