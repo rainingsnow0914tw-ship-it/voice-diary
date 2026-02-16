@@ -551,15 +551,30 @@ Pinky`
                     return;
                 }
 
+                // ===== 修法 B：測試模式走完 4 輪後，用戶輸入任何東西都直接生成日記 =====
+                // （因為第 4 輪 AI 已經問了「想記錄下來嗎？」，用戶回答任何肯定都應觸發日記）
+                if (testMode && testStep >= TEST_CONVERSATIONS[lang].length) {
+                    await generateDiary();
+                    return;
+                }
+
                 if (testMode && testStep < TEST_CONVERSATIONS[lang].length) {
+                    const currentStep = testStep; // 記住當前步驟
                     setTimeout(() => {
-                        const response = TEST_CONVERSATIONS[lang][testStep].ai;
+                        const response = TEST_CONVERSATIONS[lang][currentStep].ai;
                         setMessages([...newMessages, { role: 'ai', content: response }]);
                         setConversationHistory([...newHistory, { role: 'ai', content: response }]);
                         setCatEmotion('happy');
-                        setTestStep(testStep + 1);
+                        setTestStep(currentStep + 1);
                         speakText(response);
                         setIsLoading(false);
+
+                        // ===== 修法 A：最後一輪對話後，自動延遲 2 秒觸發日記生成 =====
+                        if (currentStep + 1 >= TEST_CONVERSATIONS[lang].length) {
+                            setTimeout(() => {
+                                generateDiary();
+                            }, 2000);
+                        }
                     }, 600);
                     return;
                 }
